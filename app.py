@@ -1,8 +1,9 @@
 from flask import Flask, render_template,request
 import pymongo
 import json
+import os
 
-client = pymongo.MongoClient("mongodb+srv://ae13:TWusC2KhvJhlUWjA@cluster0.qpa8lev.mongodb.net/?retryWrites=true&w=majority")
+client = pymongo.MongoClient(os.environ.get("MONGO_URI"))
 db = client['flaskAppTest']
 
 app = Flask(__name__)

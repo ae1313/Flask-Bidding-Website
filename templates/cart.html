@@ -18,8 +18,8 @@
                 <p class="data-point">{{item["price"]*item["quantity"]-1254}}km</p>
             </div>
            <div class="info">
-            <p class="data-point"><img src="{{ url_for('static', filename='icons8-bidding-32.png') }}" alt="Top Bidder" height="24px">: {{item["bidding"][0]}}</p>
-            <p class="data-point">Top Bid: {{item["bidding"][1]}}</p>
+            <p class="data-point"><img src="{{ url_for('static', filename='icons8-bidding-32.png') }}" alt="Top Bidder" height="24px">: {{item["bidding"][0]["name"] if item["bidding"][0] else "None"}}</p>
+            <p class="data-point">Top Bid: ${{item["bidding"][0]["bid"] if item["bidding"][0] else item["price"]/2}}</p>
            </div>
         </div>
         {%endfor%}
