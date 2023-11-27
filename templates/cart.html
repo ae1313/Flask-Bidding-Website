@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        {%for item in items%}
+        <div class="card" id={{item['pageID']}}>
+            <img src={{item["image_url"]}} alt=`{{item["name"]}} class="pic">
+            <p class="name">{{item["name"]}}</p>
+            <div class="info">
+                <p class="price data-point">${{item["price"]}}</p>
+                <p class="data-point">Age: {{item["quantity"]}}</p>
+                <p class="data-point">{{item["price"]*item["quantity"]-1254}}km</p>
+            </div>
+           <div class="info">
+            <p class="data-point"><img src="{{ url_for('static', filename='icons8-bidding-32.png') }}" alt="Top Bidder" height="24px">: {{item["bidding"][0]}}</p>
+            <p class="data-point">Top Bid: {{item["bidding"][1]}}</p>
+           </div>
+        </div>
+        {%endfor%}
+    </div>
+</body>
+<script>
+    let x = document.querySelectorAll(".card")
+    console.log(x)
+    x.forEach((e,i) => {
+        e.addEventListener('click', (event)=>{
+            let clickCard = event.target.closest('.card')
+            let cardID = clickCard.getAttribute('id')
+            let url = `http://127.0.0.1:5000/car?id=${cardID}`
+            window.open(url)
+            console.log(cardID)
+        })
+    })
+</script>
+</html>

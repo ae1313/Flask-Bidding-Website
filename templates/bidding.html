@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{car['name']}}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bidding.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{car["name"]}}</h1>
+        <img src={{car["image_url"]}} alt=({{car["name"]}}) class="pic">
+        
+        <div class="info">
+            <p class="data-point">Cost: <span class="value">${{car["price"]}}</span></p>
+            <p class="data-point">Age: <span class="value">{{car["quantity"]}}</span></p>
+            <p class="data-point">Millage: <span class="value">{{car["price"]*car["quantity"]-1254}}km</span></p>
+        </div>
+            <div class="info">
+            <p class="data-point">
+                <img src="{{ url_for('static', filename='icons8-bidding-32.png') }}" alt="Top Bidder" height="24px">: George
+                <span class="bide">Top Bid: 96000</span> <span class="bide">Min Bid: ${{car["price"]/2}}</span></p>
+       </div>
+       <div class="form">
+            <p class="bid-price">Your bid: <input type="number" name="" id="amount" class="input"></p>
+            <button type="button" class="bid">Bid Now!</button>
+       </div>
+    </div>
+</body>
+<script>
+    let params = new URLSearchParams(document.location.search)
+    let id = params.get("id")
+    
+    a = document.querySelector(".bid");
+    a.addEventListener("click",()=>{
+        b=document.getElementById("amount").value;
+
+        data = {
+            "data":b,
+            "id": id
+        }
+        data = JSON.stringify(data)
+        console.log(b);
+        fetch("/bidding", {
+            method: "POST",
+            body: data,
+            headers: {
+              "Content-type": "application/json; charset=UTF-8"
+            }
+          })    });
+</script>
+</html>
