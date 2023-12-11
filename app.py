@@ -2,16 +2,15 @@ from flask import Flask, render_template,request
 import pymongo
 import json
 import os
-
-client = pymongo.MongoClient(os.environ.get("MONGO_URI"))
+from dotenv import load_dotenv
+load_dotenv()
+client = pymongo.MongoClient(os.getenv("MONGO_URI"))
 db = client['flaskAppTest']
 
 app = Flask(__name__)
 @app.route('/')
 def index():
-    username = "Aden"
-    password = "Passcode"
-    return render_template("index.html",username=username,password=password)
+    return render_template("index.html")
 
 @app.route('/cart')
 def cart():
@@ -69,7 +68,14 @@ def bidding():
         # db.groceried.update_one({"pageID":data["id"]}, {"$push":{"bidding":{"name":"adam","bid":data["data"]}}})
         return "Big Fail"
 
-
+@app.route('/signup',methods=["POST","GET"])
+def signup():
+    if request.method == "GET":
+        return render_template("signup.html")
+    if request.method == "POST":
+        return "hi"
+    
+    
 if __name__ == "__main__":
     app.debug=True
     app.run()
