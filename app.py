@@ -1,13 +1,16 @@
-from flask import Flask, render_template,request
+from flask import Flask, render_template,request,redirect
 import pymongo
 import json
+from flask_bcrypt import Bcrypt
 import os
 from dotenv import load_dotenv
 load_dotenv()
+
 client = pymongo.MongoClient(os.getenv("MONGO_URI"))
 db = client['flaskAppTest']
 
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -73,8 +76,19 @@ def signup():
     if request.method == "GET":
         return render_template("signup.html")
     if request.method == "POST":
-        return "hi"
-    
+        if not db.users.find_one({"email":request.form.get("email")}):
+            user=dict(request.form)
+            user["password"] = bcrypt.generate_password_hash(user["password"]).decode('utf-8')
+            db.users.insert_one(user)
+            return redirect("\login")
+        else:
+            return redirect("\signup")
+        
+@app.route('/login',methods=["POST","GET"])
+def login():
+    if request.method == "GET":
+        return render_template("index.html")
+
     
 if __name__ == "__main__":
     app.debug=True
