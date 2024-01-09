@@ -78,16 +78,38 @@ def signup():
     if request.method == "POST":
         if not db.users.find_one({"email":request.form.get("email")}):
             user=dict(request.form)
-            user["password"] = bcrypt.generate_password_hash(user["password"]).decode('utf-8')
+            user["password"] = bcrypt.generate_password_hash(user["password"]).decode("utf-8")
             db.users.insert_one(user)
-            return redirect("\login")
+            return redirect("\signin")
         else:
             return redirect("\signup")
         
-@app.route('/login',methods=["POST","GET"])
+@app.route('/signin',methods=["POST","GET"])
 def login():
     if request.method == "GET":
-        return render_template("index.html")
+        return render_template("signin.html")
+        
+         
+    elif request.method == "POST":
+        try:
+            email = request.form.get("email")
+            canidate = request.form.get("password")
+        except:
+            return(redirect('/signin?e=1'))
+        
+        
+        if db.users.find_one({"email":request.form.get("email")}):
+            canidate = request.form.get("password")
+            hash = db.users.find_one({"email": request.form.get("email")})["password"]
+            if bcrypt.check_password_hash(hash, canidate):  
+                return redirect("/cart")
+            else: 
+                return redirect("/signin?e=1")
+        else:
+            # return redirect("\signin")
+            return redirect("/signin?e=1")
+        return redirect("/signin?e=1")
+
 
     
 if __name__ == "__main__":
