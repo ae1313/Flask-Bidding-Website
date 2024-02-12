@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='bidding.css') }}">
 </head>
 <body>
+    <div class="buttons">
+        <a href="/browse" class="back">Back</a>
+    </div>
     <div class="container">
         <h1>{{car["name"]}}</h1>
         <img src={{car["image_url"]}} alt=({{car["name"]}}) class="pic">
@@ -32,7 +35,7 @@
     let id = params.get("id")
     
     a = document.querySelector(".bid");
-    a.addEventListener("click",()=>{
+    a.addEventListener("click",async()=>{
         b=document.getElementById("amount").value;
 
         data = {
@@ -41,12 +44,14 @@
         }
         data = JSON.stringify(data)
         console.log(b);
-        fetch("/bidding", {
+        await fetch("/bidding", {
             method: "POST",
             body: data,
             headers: {
-              "Content-type": "application/json; charset=UTF-8"
-            }
-          })    });
+              "Content-type": "application/json; charset=UTF-8"}})  
+        location.reload();
+        return false; 
+        });
+    
 </script>
 </html>

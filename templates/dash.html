@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+    <title>Dash</title>
+    
+</head>
+<body>
+    <h1>Your Bids</h1>
+    <table class="bids">
+        <tr>
+            <th>Car</th>
+            <th>Amount</th>
+        </tr>
+        {%for bid in user["bids"]%}
+        <tr class="bid">
+            <td class="chip">{{bid["car"]}}</td>
+            <td class="chip">${{bid["amount"]}}</td>
+        </tr>
+        {%endfor%}
+    </table>
+</body>
+</html>

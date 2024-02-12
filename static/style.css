@@ -64,3 +64,16 @@
 body{
     background-color: #0F0F0F;
 }
+
+.buttons {
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    position: fixed;
+    margin-right: 15px;
+    top: 0;
+    right: 0;
+    background-color: rgb(109, 193, 238) 50%;
+  }

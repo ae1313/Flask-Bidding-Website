@@ -4,7 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
 </head>
 <body>
+    <div class="buttons">
+        <div class="button"><a href="/signup" class="button">Sign Up</a></div>
+        <div class="button"><a href="/signin" class="button">Sign In</a></div>
+    </div>
+    <div class="hero">
+        <div>
+            <div class="title">Used Cars Done Right</div>
+            <div class="subtitle">Rethinking Reuse</div>
+            <div class="text">Here at Second Chance Cars, we strive to give you the best prices without any of the usuall scams. We rethink used cars.</div>
+        </div>
+    </div>
+
 </body>
 </html>
