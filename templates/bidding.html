@@ -24,10 +24,20 @@
                 <img src="{{ url_for('static', filename='icons8-bidding-32.png') }}" alt="Top Bidder" height="24px">: {{car["bidding"][0]["name"] if car["bidding"][0] else "None"}}
                 <span class="bide">Top Bid: {{car["bidding"][0]["bid"] if car["bidding"][0] else car["price"]/2}}</span> <span class="bide">Min Bid: ${{car["price"]/2}}</span></p>
        </div>
-       <div class="form">
-            <p class="bid-price">Your bid: <input type="number" name="" id="amount" class="input"></p>
-            <button type="button" class="bid">Bid Now!</button>
-       </div>
+       {%if car["status"]=="live"%}
+            <div class="form">
+                <p class="bid-price">Your bid: <input type="number" name="" id="amount" class="input"></p>
+                <button type="button" class="bid">Bid Now!</button>
+            </div>
+        {%endif%}
+
+        {%if car["status"]=="closed"%}
+            <div class="form">
+                <p class="bid-price">The Bidding Window Is Over</p>
+            </div>
+        {%endif%}
+
+        
     </div>
 </body>
 <script>

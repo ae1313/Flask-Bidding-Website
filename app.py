@@ -3,10 +3,13 @@ import pymongo
 import json
 from flask_bcrypt import Bcrypt
 import os
-from dotenv import load_dotenv
-load_dotenv()
+from dotenv import dotenv_values
+from pymongo.server_api import ServerApi
 
-client = pymongo.MongoClient(os.getenv("MONGO_URI"))
+pswds = dotenv_values(".env")
+uri = pswds["MONGO_URI"]
+
+client = pymongo.MongoClient(uri)
 db = client['flaskAppTest']
 
 app = Flask(__name__)
@@ -32,7 +35,10 @@ def browse():
             for j in i:
                 if j == "price":
                     i[j]=float(i[j])
-        return render_template("cart.html", items=items)
+        admin = db.users.find_one({"email": session["email"]})["admin"]
+        if admin:
+            return render_template("cart.html", items=items, admin=True)
+        return render_template('cart.html', items=items)
     else:
         return redirect("/signin")
 
@@ -141,8 +147,8 @@ def sign_out():
 
 @app.route('/dash', methods=["GET"])
 def dash():
-    # if not session.get("email"):
-    #     return redirect("/signin")
+    if not session.get("email"):
+        return redirect("/signin")
     user = db.users.find_one({"email": session["email"]})
     return(render_template("dash.html",user=user))
     print(user)
@@ -153,6 +159,12 @@ def dash():
         # return render_template("dash.html",bids)
     else:
         return redirect('/browse')
+
+@app.route('/stop', method=['POST'])
+def stop_bid():
+    data = request.data.decode('utf-8') 
+    id = json.loads(data)['id']
+    db.Groceries.update_one({"pageID":id}, {"$set":{"status":"closed"}})
     
 @app.route('/admin',methods=["GET"])
 def admin():
@@ -164,6 +176,6 @@ def admin():
 if __name__ == "__main__":
     app.debug=True
     app.run()
+    client.close()
 
 
-client.close()
