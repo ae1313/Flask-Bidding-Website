@@ -160,7 +160,7 @@ def dash():
     else:
         return redirect('/browse')
 
-@app.route('/stop', method=['POST'])
+@app.route('/stop', methods=['POST'])
 def stop_bid():
     data = request.data.decode('utf-8') 
     id = json.loads(data)['id']
