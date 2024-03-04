@@ -15,7 +15,12 @@
         {%for item in items%}
         <div class="card" id={{item['pageID']}}>
             <img src={{item["image_url"]}} loading="lazy" alt=`{{item["name"]}} class="pic">
-            <p class="name">{{item["name"]}}</p>
+            <p class="name">{{item["name"]}}
+                {%if item['status']=="closed"%}
+                    <span class="warn"> - Closed</span>
+                {%endif%}
+            </p>
+            
             <div class="info">
                 <p class="price data-point">${{item["price"]}}</p>
                 <p class="data-point">Age: {{item["quantity"]}}</p>
@@ -25,12 +30,15 @@
            <div class="info">
             <p class="data-point"><img src="{{ url_for('static', filename='icons8-bidding-32.png') }}" alt="Top Bidder" height="24px">: {{item["bidding"][0]["name"] if item["bidding"][0] else "None"}}</p>
             <p class="data-point">Top Bid: ${{item["bidding"][0]["bid"] if item["bidding"][0] else item["price"]/2}}</p>
-            {%if admin%}
-                <button id="Stop" class="button-stop">Stop</button>
-            {%endif%}
            </div>
-           
         </div>
+        {%if admin%}
+            <div class="btn-ctn" id={{item['pageID']}}>
+                <button id="Stop" class="button-stop data-point">Stop</button>
+            </div>
+        {%endif%}
+        
+        
         {%endfor%}
     </div>
 </body>
@@ -46,5 +54,26 @@
             console.log(cardID)
         })
     })
+    let btn = document.querySelectorAll("#Stop")
+    console.log(btn)
+    btn.forEach((e,i) => {
+        e.addEventListener("click", (event)=> {
+            let clickCard = event.target.closest('.btn-ctn')
+            let cardID = clickCard.getAttribute('id')
+            console.log(cardID)
+            let data = {
+                "id":cardID
+            }
+            fetch('/stop',{
+                method:"POST",
+                body: JSON.stringify(data)
+            }).then(ev => {
+                console.log(ev.json())
+                window.location.reload()
+            }).catch(err => {console.log(err)})
+
+        })
+    })
+    
 </script>
 </html>

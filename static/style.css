@@ -77,3 +77,9 @@ body{
     right: 0;
     background-color: rgb(109, 193, 238) 50%;
   }
+
+  .button-stop {
+    background: red;
+    color: white;
+    font-weight: bold;
+  }
