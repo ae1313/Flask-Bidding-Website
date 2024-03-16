@@ -78,8 +78,19 @@ body{
     background-color: rgb(109, 193, 238) 50%;
   }
 
-  .button-stop {
+.button-stop {
     background: red;
     color: white;
     font-weight: bold;
-  }
+}
+
+.button-start {
+    background: green;
+    color: white;
+    font-weight: bold;
+}
+
+.back {
+    margin: 2px;
+    color: gray;
+}

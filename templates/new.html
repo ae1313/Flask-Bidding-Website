@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
+    
+</head>
+<body >
+    <div class="card">
+        <h1>New Car</h1>
+        <h5><a href="/cart">Back</a></h5>
+
+        <form action="/new" method="post">
+            <label for="username">Name:</label>
+            <input type="text" name="name" id="name">
+            <br>
+            <label for="price">Price:</label>
+            <input type="number" name="price" id="price">
+            <br>
+            <label for="quantity">Age:</label>
+            <input type="number" name="quantity" id="quantity">
+            <br>
+            <label for="image_url">Image Url:</label>
+            <input type="text" name="image_url" id="image_url">
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
